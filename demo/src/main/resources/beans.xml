@@ -4,23 +4,35 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="president" class="com.example.demo.domain.Person">
+        <constructor-arg name="id" value="1"></constructor-arg>
         <constructor-arg name="name" value="Chrystal"></constructor-arg>
         <constructor-arg name="lastName" value="Havoc"></constructor-arg>
         <constructor-arg name="email" value="chavocr@yahoo.com"></constructor-arg>
         <constructor-arg name="companyName" value="Mymm"></constructor-arg>
+        <constructor-arg name="salary" value="12839.68"></constructor-arg>
+        <constructor-arg name="currency" value="PLN"></constructor-arg>
+        <constructor-arg name="country" value="Poland"></constructor-arg>
     </bean>
 
     <bean id="vicePresident" class="com.example.demo.domain.Person">
+        <constructor-arg name="id" value="2"></constructor-arg>
         <constructor-arg name="name" value="Halley"></constructor-arg>
         <constructor-arg name="lastName" value="Gadaud"></constructor-arg>
         <constructor-arg name="email" value="hgadaud9@sohu.com"></constructor-arg>
         <constructor-arg name="companyName" value="Oyope"></constructor-arg>
+        <constructor-arg name="salary" value="12839.68"></constructor-arg>
+        <constructor-arg name="currency" value="PLN"></constructor-arg>
+        <constructor-arg name="country" value="Poland"></constructor-arg>
     </bean>
 
     <bean id="secretary" class="com.example.demo.domain.Person">
+        <constructor-arg name="id" value="3"></constructor-arg>
         <constructor-arg name="name" value="Kirbie"></constructor-arg>
         <constructor-arg name="lastName" value="Wrettum"></constructor-arg>
         <constructor-arg name="email" value="kwrettumj@slideshare.net"></constructor-arg>
         <constructor-arg name="companyName" value="Browsetype"></constructor-arg>
+        <constructor-arg name="salary" value="12839.68"></constructor-arg>
+        <constructor-arg name="currency" value="PLN"></constructor-arg>
+        <constructor-arg name="country" value="Poland"></constructor-arg>
     </bean>
 </beans>

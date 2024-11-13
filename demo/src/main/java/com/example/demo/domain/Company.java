@@ -1,6 +1,6 @@
 package com.example.demo.domain;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Company {
@@ -70,5 +70,26 @@ public class Company {
                 .sorted((p1, p2) -> p1.getEmail().compareToIgnoreCase(p2.getEmail()))
                 .collect(Collectors.toList());
     }
+    public Map<String, Double> getCurrencySalaryPairs() {
+        Map<String, Double> currencySums = new HashMap<>();
+        List<AbstractMap.SimpleEntry<String, Double>> currencySalaryPairs =
+                workers.stream()
+                        .map(person -> new AbstractMap.SimpleEntry<>(person.getCurrency(), person.getSalary()))
+                        .collect(Collectors.toList());
+        currencySalaryPairs.forEach(pair -> currencySums.put(pair.getKey(), currencySums.getOrDefault(pair.getKey(), 0.0) + pair.getValue()));
+        return currencySums;
+    }
+
+    public List<Person> getEmployeesFromCountry(String country) {
+        return workers.stream().
+                filter(employee -> employee.getCountry().equalsIgnoreCase(country))
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getEmployeeCountries() {
+        return workers.stream().map(Person::getCountry).distinct().sorted().collect(Collectors.toList());
+    }
+
+
 
 }

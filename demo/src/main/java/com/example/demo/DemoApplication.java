@@ -24,14 +24,14 @@ public class DemoApplication {
 
 		System.out.println("\nAll Employees:");
 		List<Person> allEmployees = company.getAllWorkers();
-		allEmployees.forEach(System.out::println);
+		// allEmployees.forEach(System.out::println);
 
 		System.out.println("\nEmployees from reuters:");
 		List<Person> googleEmployees = company.filterByCompany("reuters");
-		googleEmployees.forEach(System.out::println);
+		// googleEmployees.forEach(System.out::println);
 
 		System.out.println("\nEmployees sorted by last name:");
 		List<Person> sortedByLastName = company.sortByLastName();
-		sortedByLastName.forEach(System.out::println);
+		// sortedByLastName.forEach(System.out::println);
 	}
 }

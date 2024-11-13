@@ -18,6 +18,7 @@ public class CsvService {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(fileName)))) {
             String line;
             boolean isFirstLine = true;
+            int currId = 0;
 
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
@@ -30,9 +31,14 @@ public class CsvService {
                 Person person = new Person(data[0].toString(),
                 (data[1].toString()),
                 (data[2].toString()),
-                (data[2].toString().split("@")[1].split("\\.")[0]));
+                (data[2].toString().split("@")[1].split("\\.")[0]),
+                        Double.parseDouble(data[3].toString()),
+                        data[4].toString(),
+                        data[5].toString(),
+                        currId);
 
                 people.add(person);
+                currId += 1;
             }
 
         } catch (IOException e) {

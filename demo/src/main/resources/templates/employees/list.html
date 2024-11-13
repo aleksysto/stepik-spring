@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${pageTitle}">Employees</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div >
+    <div >
+        <table >
+            <thead>
+            <tr>
+                <th>Sum of all salaries</th>
+                <th> currency </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="entry : ${currencySummary}">
+                <td th:text="${T(java.lang.String).format('%,.2f', entry.value)}">Amount</td>
+                <td th:text="${entry.key}">Currency</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div >
+        <h4>Filter by country</h4>
+        <form action="/employees/list" method="get" >
+            <select  name="country" id="employeeCountry" aria-label="country">
+                <option th:each="employeeCountry : ${employeeCountries}"
+                        th:value="${employeeCountry}"
+                        th:text="${employeeCountry}"
+                        th:selected="${employeeCountry == country}">
+                </option>
+            </select>
+            <button type="submit" >Filter</button>
+            <button type="button"  onclick="clearFilter()">Show All</button>
+        </form>
+    </div>
+
+    <h2>List</h2>
+    <div th:if="${not #lists.isEmpty(employees)}">
+        <table >
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Last name</th>
+                <th>Email</th>
+                <th>Company</th>
+                <th>Salary</th>
+                <th>Currency</th>
+                <th>Country</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="employee : ${employees}">
+                <td th:text="${employee.id}">1</td>
+                <td th:text="${employee.name}">Name</td>
+                <td th:text="${employee.lastName}">Last name</td>
+                <td>
+                    <a th:href="@{/employees/details/{id}(id=${employee.id})}" th:text="${employee.email}">Email</a>
+                </td>
+                <td th:text="${employee.companyName}">Company</td>
+                <td th:text="${employee.salary}">Salary</td>
+                <td th:text="${employee.currency}">Currency</td>
+                <td th:text="${employee.country}">Country</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${#lists.isEmpty(employees)}" >
+        Database is empty:(
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function clearFilter() {
+        window.location.href = '/employees/list';
+    }
+</script>
+</body>
+</html>

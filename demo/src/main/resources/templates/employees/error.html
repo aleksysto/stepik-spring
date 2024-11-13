@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Error</title>
+</head>
+<body >
+<div th:replace="~{fragments/header :: header}"></div>
+<div >
+    <div  role="alert">
+        User doesnt exist
+    </div>
+    <div>
+        <a th:href="@{/employees}" >Go Back</a>
+    </div>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

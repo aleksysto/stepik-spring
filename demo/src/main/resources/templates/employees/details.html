@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee</title>
+</head>
+<body >
+<div th:replace="~{fragments/header :: header}"></div>
+<div >
+    <h2 th:text="${employee.name + ' ' + employee.lastName}"></h2>
+
+    <div >
+        <div >
+            <p><strong>ID:</strong> <span th:text="${employee.id}">1</span></p>
+            <p><strong>Email:</strong> <span th:text="${employee.email}">Email</span></p>
+            <p><strong>Company:</strong> <span th:text="${employee.companyName}">Company</span></p>
+            <p><strong>Salary:</strong> <span th:text="${employee.salary}">Salary</span></p>
+            <p><strong>Currency:</strong> <span th:text="${employee.currency}">Currency</span></p>
+            <p><strong>Country:</strong> <span th:text="${employee.country}">Country</span></p>
+        </div>
+        <div>
+            <a th:href="@{/employees/list}" >Go Back</a>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

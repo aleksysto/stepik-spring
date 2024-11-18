@@ -1,15 +1,48 @@
 package com.example.demo.domain;
 
+import com.example.demo.validation.Currency;
+import com.example.demo.validation.TotalSalary;
+import com.example.demo.validation.UniqueEmail;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.*;
+import lombok.Data;
+
+@Data
+@Entity
 public class Person {
 
+    @Id
     private int id;
+
+    @NotBlank(message="Name cant be blank")
+    @Size(min=3, max=20, message="Name needs to be between 3 and 20 chars long")
+    @Pattern(regexp = "^[a-zA-Z\\-]+$", message = "Name can only use letters and dashes")
     private String name;
+
+    @NotBlank(message = "Last name cant be blank")
+    @Size(min = 3, max = 30, message = "Last name needs to be between 3 and 30 chars long")
+    @Pattern(regexp = "^[a-zA-Z\\-]+$", message = "Last name can only use letters and dashes")
     private String lastName;
+
+    @Email(message = "Invalid emial")
+    @NotBlank(message = "Email cant be blank")
     private String email;
-    private String companyName;
+
+    @DecimalMin(value = "0.01", message = "Salary has to be a positive number")
+    @DecimalMax(value = "1000000.00", message = "Salary cant be over 1 000 000")
+    @TotalSalary(message="Salary cannot go over company budget")
     private double salary;
-    private String country;
+
+    @NotBlank(message = "Currency is required")
+    @Currency(message = "Wrong currency")
     private String currency;
+
+    @NotBlank(message = "Country is required")
+    @Size(min = 2, max = 30, message = "Country needs to be between 2 and 30 chars")
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "Country can only use letters")
+    private String country;
+    private String companyName;
 
     public Person() {
         System.out.println("Worker: " + this);

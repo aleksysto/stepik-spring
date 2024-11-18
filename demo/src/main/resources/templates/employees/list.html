@@ -6,6 +6,14 @@
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 
+<h2>
+<div th:if="${successMessage}" class="alert alert-success" role="alert">
+    <span th:text="${successMessage}">Sukces</span>
+</div>
+<div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+    <span th:text="${errorMessage}">Błąd</span>
+</div>
+</h2>
 <div >
     <div >
         <table >
@@ -24,6 +32,9 @@
         </table>
     </div>
 
+    <div>
+        <a th:href="@{/employees/add}">Add employee</a>
+    </div>
     <div >
         <h4>Filter by country</h4>
         <form action="/employees/list" method="get" >
@@ -66,6 +77,13 @@
                 <td th:text="${employee.salary}">Salary</td>
                 <td th:text="${employee.currency}">Currency</td>
                 <td th:text="${employee.country}">Country</td>
+                <td>
+                    <a th:href="@{/employees/edit/{id}(id=${employee.id})}">Edit</a>
+                    <form th:action="@{/api/persons/{id}(id=${employee.id})}" method="delete"
+                          onsubmit="return sendAsJson(event)">
+                        <button type="submit">Remove employee</button>
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -81,6 +99,41 @@
 <script>
     function clearFilter() {
         window.location.href = '/employees/list';
+    }
+</script>
+<script>
+    function sendAsJson(event) {
+        const confirmed = confirm('Remove employee?');
+        event.preventDefault();
+
+        const form = event.target;
+        const formData = new FormData(form);
+        const jsonData = {};
+
+        formData.forEach((value, key) => {
+            jsonData[key] = value;
+        });
+
+        if (!confirmed){
+            return
+        } else {
+            fetch(form.action, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
+            }).then(response => {
+                if (response.ok) {
+                    alert('Employee removed');
+                    window.location.href = '/employees/list';
+                } else {
+                    alert('Coudlnt remove employee');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        }
     }
 </script>
 </body>

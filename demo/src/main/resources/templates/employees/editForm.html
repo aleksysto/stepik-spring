@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit employee</title>
+</head>
+<body >
+<div th:replace="~{fragments/header :: header}"></div>
+<div >
+    <form th:action="@{/employees/edit/{id}(id=${person.id})}" th:object="${person}" method="post">
+        <label>First name:</label>
+        <input type="text" th:field="*{name}" />
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+
+        <label>Last name:</label>
+        <input type="text" th:field="*{lastName}" />
+        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" />
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+
+        <label>Salary:</label>
+        <input type="number" step="0.01" th:field="*{salary}" />
+        <span th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}"></span>
+
+        <label>Currency:</label>
+        <input type="text" th:field="*{currency}" />
+        <span th:if="${#fields.hasErrors('currency')}" th:errors="*{currency}"></span>
+
+        <label>Country:</label>
+        <select th:field="*{country}">
+            <option value="Poland">Poland</option>
+            <option value="Germany">Germany</option>
+            <option value="USA">USA</option>
+            <option value="Lithuania">Lithuania</option>
+        </select>
+        <span th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></span>
+
+        <button type="submit">Edit employee</button>
+    </form>
+
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+<script>
+    function sendAsJson(event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const formData = new FormData(form);
+        const jsonData = {};
+
+        formData.forEach((value, key) => {
+            jsonData[key] = value;
+        });
+
+        fetch(form.action, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonData)
+        }).then(response => {
+            if (response.ok) {
+                alert('Employee edited');
+                window.location.href = '/employees/list';
+            } else {
+                alert('Coudlnt edit employee');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    }
+</script>
+</html>

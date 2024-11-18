@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.domain.Company;
 import com.example.demo.domain.Person;
 import com.example.demo.service.PersonService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,11 +42,14 @@ public class PersonController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Person addPerson(@RequestBody Person person) {
+        person.setId(service.getNewId());
+        person.setCompanyName(person.getEmail().split("@")[1].split("\\.")[0]);
         return service.addPerson(person);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Person> updatePerson(@PathVariable int id, @RequestBody Person updatedPerson) {
+    public ResponseEntity<Person> updatePerson(@PathVariable int id, @Valid @RequestBody Person updatedPerson) {
+        updatedPerson.setCompanyName(updatedPerson.getEmail().split("@")[1].split("\\.")[0]);
         return service.updatePerson(id, updatedPerson)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());

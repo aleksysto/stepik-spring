@@ -85,9 +85,24 @@ public class Company {
                 filter(employee -> employee.getCountry().equalsIgnoreCase(country))
                 .collect(Collectors.toList());
     }
+    public boolean existsByEmail(String email) {
+        return workers.stream().anyMatch(employee -> employee.getEmail().equalsIgnoreCase(email));
+    }
 
     public List<String> getEmployeeCountries() {
         return workers.stream().map(Person::getCountry).distinct().sorted().collect(Collectors.toList());
+    }
+    public double getSalarySum(){
+        return workers.stream().map(Person::getSalary).reduce(0.0, Double::sum);
+    }
+    public Optional<Person> findByEmail(String email) {
+        return workers.stream().filter(employee -> employee.getEmail().equalsIgnoreCase(email)).findFirst();
+    }
+    public int getNewId(){
+        Collections.reverse(workers);
+        int newId = workers.get(0).getId() + 1;
+        Collections.reverse(workers);
+        return newId;
     }
 
 

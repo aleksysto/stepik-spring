@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.Company;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class PersonService {
 
 
@@ -30,6 +32,15 @@ public class PersonService {
         } catch (IndexOutOfBoundsException e) {
             return Optional.empty();
         }
+    }
+    public boolean existsByEmail(String email) {
+        return company.existsByEmail(email);
+    }
+    public Optional<Person> findByEmail(String email) {
+        return company.findByEmail(email);
+    }
+    public double getSalarySum(){
+        return company.getSalarySum();
     }
 
     public Person addPerson(Person person) {
@@ -56,6 +67,9 @@ public class PersonService {
     }
     public List<Person> getAllWorkers() {
         return company.getAllWorkers();
+    }
+    public int getNewId(){
+        return company.getNewId();
     }
     public  List<String> getEmployeeCountries() {
         return company.getEmployeeCountries();

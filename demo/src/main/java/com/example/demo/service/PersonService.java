@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.example.demo.domain.Person;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,8 +29,7 @@ public class PersonService {
     }
     public Optional<Person> getPersonById(int id) {
         try {
-            Person res = company.getAllWorkers().get(id);
-            return Optional.of(res);
+            return company.findById(id);
         } catch (IndexOutOfBoundsException e) {
             return Optional.empty();
         }
@@ -47,19 +48,43 @@ public class PersonService {
         company.getAllWorkers().add(person);
         return person;
     }
+    public List<Person> importFromCSV(MultipartFile file) throws IOException {
+        return List.of(new Person());
+    }
 
     public Optional<Person> updatePerson(int id, Person updatedPerson) {
         try {
-            Person res = company.getAllWorkers().set(id, updatedPerson);
-            return Optional.of(res);
+            Optional<Person> toRemove = company.findById(id);
+            if (toRemove.isPresent()){
+                toRemove.get().setName(updatedPerson.getName());
+                toRemove.get().setCompanyName(updatedPerson.getCompanyName());
+                toRemove.get().setSalary(updatedPerson.getSalary());
+                toRemove.get().setEmail(updatedPerson.getEmail());
+                toRemove.get().setCountry(updatedPerson.getCountry());
+                toRemove.get().setCurrency(updatedPerson.getCurrency());
+                toRemove.get().setLastName(updatedPerson.getLastName());
+                toRemove.get().setImagePath(updatedPerson.getImagePath());
+                return Optional.of(toRemove.get());
+            } else {
+                return Optional.empty();
+            }
         } catch (IndexOutOfBoundsException e) {
             return Optional.empty();
         }
     }
+    public void addPersons(List<Person> persons){
+        this.company.addPersons(persons);
+    }
 
     public boolean deletePerson(int id) {
         try {
-            company.getAllWorkers().remove(id);
+            Optional<Person> toRemove = company.findById(id);
+            if (toRemove.isPresent()) {
+                company.removeById(id);
+            } else
+            {
+                return false;
+            }
             return true;
         } catch (IndexOutOfBoundsException e) {
             return false;

@@ -5,8 +5,10 @@ import com.example.demo.validation.TotalSalary;
 import com.example.demo.validation.UniqueEmail;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Entity
@@ -43,6 +45,9 @@ public class Person {
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Country can only use letters")
     private String country;
     private String companyName;
+    @Transient
+    private MultipartFile photo;
+    private String imagePath;
 
     public Person() {
         System.out.println("Worker: " + this);
@@ -60,6 +65,21 @@ public class Person {
         System.out.println("Worker: " + this);
     }
 
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public void setPhoto(MultipartFile photo) {
+        this.photo = photo;
+    }
+
+    public MultipartFile getPhoto() {
+        return photo;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
 
     public void setName(String name) {
         this.name = name;

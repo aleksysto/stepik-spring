@@ -6,7 +6,7 @@
 <body >
 <div th:replace="~{fragments/header :: header}"></div>
 <div >
-    <form th:action="@{/employees/add}" th:object="${person}" method="post" >
+    <form th:action="@{/employees/add}" th:object="${person}" method="post" enctype="multipart/form-data">
         <label>First name:</label>
         <input type="text" th:field="*{name}" />
         <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"></span>
@@ -35,6 +35,8 @@
                 <option value="Lithuania">Lithuania</option>
             </select>
         <span th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></span>
+        <label class="form-label">Zdjęcie</label>
+        <input type="file" class="form-control" name="image" accept="image/*">
 
         <button type="submit">Add employee</button>
     </form>

@@ -35,3 +35,8 @@ public class DemoApplication {
 		// sortedByLastName.forEach(System.out::println);
 	}
 }
+// Dodanie sciezki imagepath, dodanie uploaddir, FileService do savefile, loadfile,
+// dorzucanie timestamp do zapisanego pliku zeby byly unikalne
+// w application.properties dac file upload dir, max filesize
+// w kontrolerze obsluga plikow w postmapping (MultiPartFile)
+// w formie input type image, accepts image/

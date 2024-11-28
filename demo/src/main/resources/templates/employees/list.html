@@ -51,6 +51,47 @@
     </div>
 
     <h2>List</h2>
+    <form action="/employees/import" method="post" enctype="multipart/form-data" class="d-flex align-items-end my-3">
+        <div>
+            <label for="csvFile" class="form-label">Select CSV Data File:</label>
+            <input class="form-control me-2 w-75" type="file" id="csvFile" name="csvFile" accept=".csv" required>
+        </div>
+        <button type="submit" class="btn btn-primary me-2 px-3">Import</button>
+    </form>
+    <a th:href="@{/employees/get-zip}" class="btn btn-outline-primary">Export employee photos</a>
+    <div>
+        <form action="/employees/get-csv" method="post" >
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="columns" value="first_name" id="firstNameExport">
+                <label class="form-check-label" for="firstNameExport">First Name</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="columns" value="last_name" id="lastNameExport">
+                <label class="form-check-label" for="lastNameExport">Last Name</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="columns" value="email" id="emailExport">
+                <label class="form-check-label" for="emailExport">Email</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="columns" value="salary" id="salaryExport">
+                <label class="form-check-label" for="salaryExport">Salary</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="columns" value="currency" id="currencyExport">
+                <label class="form-check-label" for="currencyExport">Currency</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="columns" value="country" id="countryExport">
+                <label class="form-check-label" for="countryExport">Country</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="columns" value="image_path" id="imagePathExport">
+                <label class="form-check-label" for="imagePathExport">Image Path</label>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Export to CSV</button>
+        </form>
+    </div>
     <div th:if="${not #lists.isEmpty(employees)}">
         <table >
             <thead>
@@ -63,6 +104,7 @@
                 <th>Salary</th>
                 <th>Currency</th>
                 <th>Country</th>
+                <th>Image</th>
             </tr>
             </thead>
             <tbody>
@@ -77,6 +119,11 @@
                 <td th:text="${employee.salary}">Salary</td>
                 <td th:text="${employee.currency}">Currency</td>
                 <td th:text="${employee.country}">Country</td>
+                <td>
+                    <img th:if="${employee.imagePath}"
+                         th:src="@{/employees/image/{fileName}(fileName=${employee.imagePath})}"
+                         style="max-width: 100px;">
+                </td>
                 <td>
                     <a th:href="@{/employees/edit/{id}(id=${employee.id})}">Edit</a>
                     <form th:action="@{/api/persons/{id}(id=${employee.id})}" method="delete"

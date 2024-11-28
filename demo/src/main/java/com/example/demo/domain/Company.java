@@ -95,6 +95,9 @@ public class Company {
     public double getSalarySum(){
         return workers.stream().map(Person::getSalary).reduce(0.0, Double::sum);
     }
+    public void addPersons(List<Person> persons){
+        this.workers.addAll(persons);
+    }
     public Optional<Person> findByEmail(String email) {
         return workers.stream().filter(employee -> employee.getEmail().equalsIgnoreCase(email)).findFirst();
     }
@@ -103,6 +106,12 @@ public class Company {
         int newId = workers.get(0).getId() + 1;
         Collections.reverse(workers);
         return newId;
+    }
+    public Optional<Person> findById(int id){
+        return workers.stream().filter(employee -> employee.getId() == id).findFirst();
+    }
+    public void removeById(int id){
+        workers.removeIf(employee -> employee.getId() == id);
     }
 
 
